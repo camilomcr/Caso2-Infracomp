@@ -20,10 +20,28 @@ public class ReferencesGenerator {
             int nInt = 2*NC*NF+3*3;
             int NP = (int) Math.ceil(((double)nInt)/(((double)TP)/4.0));
             writer.write(String.format("TP=%d\nNF=%d\nNC=%d\nNF_NC_Filtro=3\nNR=%d\nNP=%d\n", TP, NF, NC, NR, NP));
+            writer.write(MatrixReferences());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String MatrixReferences(){
+        double pageFraction = (9.0/(TP/4.0));
+        String references = "";
+        int[] startFilter = new int[]{0, 0};
+        int[] startData = new int[]{(int) pageFraction, (int) (TP*(pageFraction-(int)pageFraction))};
+        pageFraction = (9.0 + NF * NC) / (TP / 4.0);
+        int[] startResults = new int[]{(int) pageFraction, (int) (TP*(pageFraction -(int)pageFraction))};
+
+        for (int i=1; i<NF-1; i++){
+            for (int j=1; j<NC-1; j++){
+
+            }
+        }
+
+        return references;
     }
 
     public static void main(String[] args) {

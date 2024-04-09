@@ -8,6 +8,8 @@ public class DataCalculator {
     public DataCalculator(int mp, String referenceFile) {
         MP = mp;
         ReferenceFile = referenceFile;
+        Hits=0;
+        Fails=0;
     }
 
     public void CalculateData(){

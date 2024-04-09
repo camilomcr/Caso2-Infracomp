@@ -1,6 +1,0 @@
-TP=16
-NF=4
-NC=4
-NF_NC_Filtro=3
-NR=88
-NP=11
