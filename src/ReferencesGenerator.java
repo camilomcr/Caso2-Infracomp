@@ -28,17 +28,51 @@ public class ReferencesGenerator {
     }
 
     public String MatrixReferences(){
-        double pageFraction = (9.0/(TP/4.0));
         String references = "";
+        double pageFractionFilter;
+        double pageFractionData = (9.0/(TP/4.0));
+        double pageFractionResults = (9.0 + NF * NC) / (TP / 4.0);
         int[] startFilter = new int[]{0, 0};
-        int[] startData = new int[]{(int) pageFraction, (int) (TP*(pageFraction-(int)pageFraction))};
-        pageFraction = (9.0 + NF * NC) / (TP / 4.0);
-        int[] startResults = new int[]{(int) pageFraction, (int) (TP*(pageFraction -(int)pageFraction))};
+        int[] startData = new int[]{(int) pageFractionData, (int) (TP*(pageFractionData-(int)pageFractionData))};
+        int[] startResults = new int[]{(int) pageFractionResults, (int) (TP*(pageFractionResults -(int)pageFractionResults))};
 
         for (int i=1; i<NF-1; i++){
             for (int j=1; j<NC-1; j++){
-
+                for (int a=-1; a<=1; a++){
+                    for (int b=-1; b<=1; b++){
+                        int i2 = i+a;
+                        int j2 = j+b;
+                        int i3 = 1+a;
+                        int j3 = 1+b;
+                        // Read data[i2][j2]
+                        pageFractionData = (i2*NC+j2+9.0)/(TP/4.0);
+                        references+=String.format("M[%d][%d],%d,%d,R\n", i2, j2, (int) pageFractionData, (int) (TP*(pageFractionData-(int)pageFractionData)));
+                        // Read filter[i3][j3]
+                        pageFractionFilter = (i3*3.0+j3)/(TP/4.0);
+                        references+=String.format("F[%d][%d],%d,%d,R\n", i3, j3, (int) pageFractionFilter, (int) (TP*(pageFractionFilter-(int)pageFractionFilter)));
+                    }
+                }
+                // Write results[i][j]
+                pageFractionResults = (i*NC+j+9.0+NF*NC)/(TP/4.0);
+                references+=String.format("R[%d][%d],%d,%d,W\n", i, j, (int) pageFractionResults, (int) (TP*(pageFractionResults-(int)pageFractionResults)));
             }
+        }
+
+        for (int i=0; i<NC; i++){
+            // Write results[0][i]
+            pageFractionResults = (0*NC+i+9.0+NF*NC)/(TP/4.0);
+            references+=String.format("R[%d][%d],%d,%d,W\n", 0, i, (int) pageFractionResults, (int) (TP*(pageFractionResults-(int)pageFractionResults)));
+            // Write results[NF-1][i]
+            pageFractionResults = ((NF-1)*NC+i+9.0+NF*NC)/(TP/4.0);
+            references+=String.format("R[%d][%d],%d,%d,W\n", NF-1, i, (int) pageFractionResults, (int) (TP*(pageFractionResults-(int)pageFractionResults)));
+        }
+        for (int i=1; i<NF-1; i++){
+            // Write results[i][0]
+            pageFractionResults = (i*NC+0+9.0+NF*NC)/(TP/4.0);
+            references+=String.format("R[%d][%d],%d,%d,W\n", i, 0, (int) pageFractionResults, (int) (TP*(pageFractionResults-(int)pageFractionResults)));
+            // Write results[i][NC-1]
+            pageFractionResults = (i*NC+(NC-1)+9.0+NF*NC)/(TP/4.0);
+            references+=String.format("R[%d][%d],%d,%d,W\n", i, NC-1, (int) pageFractionResults, (int) (TP*(pageFractionResults-(int)pageFractionResults)));
         }
 
         return references;
