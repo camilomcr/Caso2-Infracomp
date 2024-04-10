@@ -14,5 +14,7 @@ public class DataCalculator {
 
     public void CalculateData(){
 
+
+        
     }
 }
