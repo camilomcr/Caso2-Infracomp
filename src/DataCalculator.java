@@ -13,6 +13,8 @@ public class DataCalculator {
     private int Fails;
     public List<Integer> PageTable;
     public List<Integer> PageFrames;
+    public List<Integer> PagesR;
+    public List<Integer> PagesM;
     public Queue<String> ReferencesQueue;
 
     public DataCalculator(int mp, String referenceFile) {
@@ -27,6 +29,14 @@ public class DataCalculator {
         for (int i=0; i<MP; i++){
             PageFrames.add(0);
         }
+    }
+
+    public void increaseFails(){
+        Fails++;
+    }
+
+    public void increaseHits(){
+        Hits++;
     }
 
     public void CalculateData(){
