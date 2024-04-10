@@ -2,6 +2,31 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+public class PageTable {
+    private final int[] pageFrames;
+    private final boolean[] presentBit;
+    private final int size;
+
+    public PageTable(int size) {
+        this.size = size;
+        this.pageFrames = new int[size];
+        this.presentBit = new boolean[size];
+        for (int i = 0; i < size; i++) {
+            pageFrames[i] = -1;
+            presentBit[i] = false;
+        }
+    }
+
+    public boolean accessPage(int page) {
+        for (int i = 0; i < size; i++) {
+            if (pageFrames[i] == page && presentBit[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
 public class DataCalculator {
     private final int MP;
     private final String ReferenceFile;
