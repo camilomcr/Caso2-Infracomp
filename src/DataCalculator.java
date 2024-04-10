@@ -24,10 +24,12 @@ public class DataCalculator {
         Fails=0;
         PageTable = new ArrayList<>();
         PageFrames = new ArrayList<>();
+        PagesR = new ArrayList<>();
+        PagesM = new ArrayList<>();
         ReferencesQueue = new LinkedList<>();
 
         for (int i=0; i<MP; i++){
-            PageFrames.add(0);
+            PageFrames.add(0); // 0 No info, 1 Info
         }
     }
 
@@ -37,6 +39,24 @@ public class DataCalculator {
 
     public void increaseHits(){
         Hits++;
+    }
+
+    public synchronized void setBitR(Boolean all, int bit, int index){
+        if (!PagesR.isEmpty()){
+            if (all){
+                for (int i =0; i< PagesR.size(); i++){
+                    PagesR.set(i,bit);
+                }
+            }else{
+                PagesR.set(index, bit);
+            }
+        }
+    }
+
+    public synchronized void setBitM(int bit, int index){
+        if (!PagesM.isEmpty()){
+            PagesM.set(index, bit);
+        }
     }
 
     public void CalculateData(){
@@ -52,19 +72,27 @@ public class DataCalculator {
                 if (splitLine[0].equals("TP")){
                     TP = Integer.parseInt(splitLine[1]);
                     for (int i=0; i<TP; i++){
-                        PageTable.add(0);
+                        PageTable.add(-1); // -1 No reference, other number reference to that page frame
+                        PagesR.add(0);
+                        PagesM.add(0);
                     }
                 }
 
                 splitLine = line.split(",");
-                if (splitLine[3].equals("R") || splitLine[3].equals("W")){
+                if (splitLine.length == 4){
                     ReferencesQueue.offer(line);
+                    Thread.sleep(100);
                 }
 
             }
+            Thread.sleep(5000);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
+        System.out.println(Hits);
+        System.out.println(Fails);
 
     }
 }
