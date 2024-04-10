@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.Scanner;
 import java.io.FileWriter;
+
 public class ReferencesGenerator {
     private final int TP;
     private final int NF;
@@ -15,7 +16,7 @@ public class ReferencesGenerator {
 
     public void GenerateReferences(){
         try {
-            FileWriter writer = new FileWriter(FileName);
+            FileWriter writer = new FileWriter("docs/"+FileName);
             int NR = (2*3*3+1)*(NC-2)*(NF-2)+2*(NC)+2*(NF-2);
             int nInt = 2*NC*NF+3*3;
             int NP = (int) Math.ceil(((double)nInt)/(((double)TP)/4.0));
